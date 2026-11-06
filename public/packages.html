@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Packages — Coptic Synaxis</title>
+    <meta
+      name="description"
+      content="Install coptic-readings and bible-citation-text — open npm packages for Coptic liturgical readings and Bible citation text."
+    />
+    <meta name="theme-color" content="#722F37" />
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,650&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap"
+      rel="stylesheet"
+    />
+    <script src="/tailwind.cdn.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/static_style.css" />
+  </head>
+  <body class="font-reading antialiased bg-slate-50 text-slate-900 flex flex-col min-h-screen">
+    <header class="bg-burgundy-900 border-b-4 border-gold sticky top-0 z-50">
+      <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between relative">
+        <div class="flex items-center space-x-8">
+                    <a href="/" class="flex items-center gap-2.5 sm:gap-3 font-display text-xl sm:text-2xl font-semibold tracking-tight text-gold hover:text-hover transition no-underline">
+            <img src="/images/logo-gold.png" alt="" class="h-9 w-9 sm:h-10 sm:w-10 shrink-0" width="40" height="40" decoding="async" />
+            <span>Coptic Synaxis</span>
+          </a>
+          <div class="nav-desktop hidden lg:flex items-center space-x-5 text-sm font-medium">
+            <a href="/packages.html" class="text-gold">Packages</a>
+            <a href="/about.html" class="text-white/90 hover:text-gold transition">About</a>
+            <a href="/story.html" class="text-white/90 hover:text-gold transition">History behind</a>
+            <a href="/contact.html" class="text-white/90 hover:text-gold transition">Contact</a>
+            <a href="/support.html" class="text-white/90 hover:text-gold transition">Support</a>
+            <a href="/app/" class="text-white/90 hover:text-gold transition">Open app</a>
+          </div>
+        </div>
+        <button
+          id="menu-toggle"
+          type="button"
+          aria-expanded="false"
+          aria-label="Toggle navigation menu"
+          class="lg:hidden inline-flex items-center justify-center p-2 rounded-md text-white/80 hover:text-gold hover:bg-burgundy-800 transition"
+        >
+          <svg id="hamburger-icon" class="h-6 w-6 block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+          <svg id="close-icon" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+        <div
+          id="mobile-menu"
+          class="hidden absolute top-16 left-0 w-full bg-burgundy-800 border-b border-gold/30 flex-col px-4 py-4 space-y-3 font-medium lg:hidden z-40"
+        >
+          <a href="/packages.html" class="px-3 py-2 rounded-md text-gold text-sm">Packages</a>
+          <a href="/about.html" class="px-3 py-2 rounded-md text-white hover:text-gold text-sm">About</a>
+          <a href="/story.html" class="px-3 py-2 rounded-md text-white hover:text-gold text-sm">History behind</a>
+          <a href="/contact.html" class="px-3 py-2 rounded-md text-white hover:text-gold text-sm">Contact</a>
+          <a href="/support.html" class="px-3 py-2 rounded-md text-white hover:text-gold text-sm">Support</a>
+          <a href="/app/" class="px-3 py-2 rounded-md text-white hover:text-gold text-sm">Open app</a>
+        </div>
+      </nav>
+    </header>
+
+    <main class="grow max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16 w-full">
+      <div class="text-center mb-10">
+        <h1 class="font-display text-3xl font-semibold tracking-tight text-burgundy-900 sm:text-4xl">
+          Packages
+        </h1>
+        <p class="mt-3 text-lg text-slate-700 max-w-xl mx-auto">
+          Two npm libraries power the app. Install them in your own project —
+          or
+          <a href="/app/playground" class="text-burgundy-700 font-semibold underline-offset-2 hover:underline">open the playground</a>.
+        </p>
+        <p class="mt-3 text-sm text-slate-600">
+          Each ships <code class="bg-burgundy-50 px-1 rounded font-mono text-xs">.mjs</code>,
+          <code class="bg-burgundy-50 px-1 rounded font-mono text-xs">.cjs</code>,
+          and TypeScript types.
+        </p>
+        <div class="w-12 h-1 bg-gold mx-auto mt-4 rounded-full"></div>
+      </div>
+
+      <div data-tabs>
+      <div
+        class="pkg-switch mb-8"
+        role="tablist"
+        aria-label="Package"
+      >
+        <button
+          type="button"
+          class="pkg-switch-btn is-active"
+          data-tab="readings"
+          role="tab"
+          aria-selected="true"
+        >
+          coptic-readings
+        </button>
+        <button
+          type="button"
+          class="pkg-switch-btn"
+          data-tab="citation"
+          role="tab"
+          aria-selected="false"
+        >
+          bible-citation-text
+        </button>
+      </div>
+
+      <!-- coptic-readings -->
+      <article
+        id="coptic-readings"
+        data-panel="readings"
+        class="scroll-mt-24 space-y-5"
+      >
+        <p class="text-slate-700 leading-relaxed">
+          Give a date → feast, tune, Coptic calendar fields, and katamaros refs
+          (vespers, matins, liturgy).
+        </p>
+
+        <div class="install-box" data-install="coptic-readings">
+          <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+            <div class="pm-tabs" role="tablist" aria-label="Package manager">
+              <button type="button" class="pm-tab is-active" data-pm="npm" role="tab" aria-selected="true">npm</button>
+              <button type="button" class="pm-tab" data-pm="yarn" role="tab" aria-selected="false">yarn</button>
+              <button type="button" class="pm-tab" data-pm="pnpm" role="tab" aria-selected="false">pnpm</button>
+              <button type="button" class="pm-tab" data-pm="bun" role="tab" aria-selected="false">bun</button>
+            </div>
+            <button type="button" class="copy-btn" data-copy="#install-readings">Copy</button>
+          </div>
+          <pre id="install-readings" class="install-cmd" data-install-cmd>npm install coptic-readings</pre>
+        </div>
+
+        <pre class="code-block"><span class="kw">import</span> { CopticReadings } <span class="kw">from</span> <span class="string">'coptic-readings'</span>;
+
+<span class="kw">const</span> day = <span class="kw">new</span> CopticReadings(<span class="kw">new</span> Date(2026, 3, 12));
+console.log(day.feast);
+console.log(day.readingReference.ref?.liturgy);</pre>
+
+        <a
+          href="https://www.npmjs.com/package/coptic-readings"
+          class="inline-flex items-center text-sm font-semibold text-burgundy-700 hover:text-burgundy-900 no-underline"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          npm · coptic-readings →
+        </a>
+      </article>
+
+      <!-- bible-citation-text -->
+      <article
+        id="bible-citation-text"
+        data-panel="citation"
+        class="scroll-mt-24 space-y-5 hidden"
+        hidden
+      >
+        <p class="text-slate-700 leading-relaxed">
+          Give a citation string → English and Arabic verse text.
+          Pass refs from <code class="text-sm bg-burgundy-50 px-1 rounded font-mono">coptic-readings</code> straight in.
+        </p>
+
+        <div class="install-box" data-install="bible-citation-text">
+          <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+            <div class="pm-tabs" role="tablist" aria-label="Package manager">
+              <button type="button" class="pm-tab is-active" data-pm="npm" role="tab" aria-selected="true">npm</button>
+              <button type="button" class="pm-tab" data-pm="yarn" role="tab" aria-selected="false">yarn</button>
+              <button type="button" class="pm-tab" data-pm="pnpm" role="tab" aria-selected="false">pnpm</button>
+              <button type="button" class="pm-tab" data-pm="bun" role="tab" aria-selected="false">bun</button>
+            </div>
+            <button type="button" class="copy-btn" data-copy="#install-citation">Copy</button>
+          </div>
+          <pre id="install-citation" class="install-cmd" data-install-cmd>npm install bible-citation-text</pre>
+        </div>
+
+        <pre class="code-block"><span class="kw">import</span> { getBibleText } <span class="kw">from</span> <span class="string">'bible-citation-text'</span>;
+
+<span class="kw">const</span> text = <span class="kw">await</span> getBibleText(<span class="string">'John 20:1-18'</span>, {
+  langs: [<span class="string">'en'</span>, <span class="string">'ar'</span>],
+});
+console.log(text.en);</pre>
+
+        <a
+          href="https://www.npmjs.com/package/bible-citation-text"
+          class="inline-flex items-center text-sm font-semibold text-burgundy-700 hover:text-burgundy-900 no-underline"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          npm · bible-citation-text →
+        </a>
+      </article>
+      </div>
+
+      <div class="mt-14 pt-10 border-t border-slate-200 text-center space-y-4">
+        <p class="text-slate-600 text-sm max-w-md mx-auto">
+          Want to edit and run these snippets with real output?
+        </p>
+        <a
+          href="/app/playground"
+          class="inline-flex items-center bg-gold text-burgundy-900 font-display font-semibold px-7 py-3.5 no-underline hover:bg-gold-hover transition"
+        >
+          Open playground
+        </a>
+      </div>
+    </main>
+
+    <footer class="site-footer pt-12 pb-10 px-4 sm:px-6 lg:px-8">
+      <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8 border-b border-white/15 pb-8 mb-8">
+        <div class="text-center md:text-left space-y-2">
+          <h4 class="footer-brand">Coptic Synaxis</h4>
+          <p class="footer-muted max-w-sm">Seasons, feast calendar, and scripture for the Coptic Orthodox year.</p>
+        </div>
+        <nav class="footer-nav" aria-label="Footer">
+          <a href="/">Home</a>
+          <a href="/packages.html">Packages</a>
+          <a href="/about.html">About</a>
+          <a href="/story.html">History behind</a>
+          <a href="/contact.html">Contact</a>
+          <a href="/support.html">Support</a>
+          <a href="/app/">App</a>
+        </nav>
+      </div>
+      <p class="footer-copy">Open packages on npm · Built for the Coptic community</p>
+    </footer>
+
+    <script src="/site.js"></script>
+    <script src="/packages.js"></script>
+    <script>
+      ;(function () {
+        var hash = (location.hash || '').replace(/^#/, '')
+        if (hash === 'bible-citation-text' || hash === 'citation') {
+          var btn = document.querySelector('[data-tab="citation"]')
+          if (btn) btn.click()
+        }
+      })()
+    </script>
+  </body>
+</html>

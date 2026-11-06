@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Coptic Synaxis — Seasons, readings &amp; scripture</title>
+    <meta
+      name="description"
+      content="Coptic Synaxis: liturgical seasons and feast calendar, plus open npm packages for Coptic readings and Bible citation text."
+    />
+    <meta name="theme-color" content="#722F37" />
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,650&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap"
+      rel="stylesheet"
+    />
+    <script src="/tailwind.cdn.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/static_style.css" />
+  </head>
+  <body class="font-reading antialiased bg-slate-50 text-slate-900 flex flex-col min-h-screen">
+    <header class="bg-burgundy-900 border-b-4 border-gold sticky top-0 z-50">
+      <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between relative">
+        <div class="flex items-center space-x-8">
+                    <a href="/" class="flex items-center gap-2.5 sm:gap-3 font-display text-xl sm:text-2xl font-semibold tracking-tight text-gold hover:text-hover transition no-underline">
+            <img src="/images/logo-gold.png" alt="" class="h-9 w-9 sm:h-10 sm:w-10 shrink-0" width="40" height="40" decoding="async" />
+            <span>Coptic Synaxis</span>
+          </a>
+                    <div class="nav-desktop hidden lg:flex items-center space-x-5 text-sm font-medium">
+            <a href="/packages.html" class="text-white/90 hover:text-gold transition">Packages</a>
+            <a href="/about.html" class="text-white/90 hover:text-gold transition">About</a>
+            <a href="/story.html" class="text-white/90 hover:text-gold transition">History behind</a>
+            <a href="/contact.html" class="text-white/90 hover:text-gold transition">Contact</a>
+            <a href="/support.html" class="text-white/90 hover:text-gold transition">Support</a>
+            <a href="/app/" class="text-gold hover:text-hover transition">Open app</a>
+          </div>
+</div>
+        <button
+          id="menu-toggle"
+          type="button"
+          aria-expanded="false"
+          aria-label="Toggle navigation menu"
+          class="lg:hidden inline-flex items-center justify-center p-2 rounded-md text-white/80 hover:text-gold hover:bg-burgundy-800 transition"
+        >
+          <svg id="hamburger-icon" class="h-6 w-6 block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+          <svg id="close-icon" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+        <div
+          id="mobile-menu"
+          class="hidden absolute top-16 left-0 w-full bg-burgundy-800 border-b border-gold/30 flex-col px-4 py-4 space-y-3 font-medium lg:hidden z-40"
+        >
+          <a href="/packages.html" class="px-3 py-2 rounded-md text-white hover:text-gold text-sm">Packages</a>
+          <a href="/about.html" class="px-3 py-2 rounded-md text-white hover:text-gold text-sm">About</a>
+          <a href="/story.html" class="px-3 py-2 rounded-md text-white hover:text-gold text-sm">History behind</a>
+          <a href="/contact.html" class="px-3 py-2 rounded-md text-white hover:text-gold text-sm">Contact</a>
+          <a href="/support.html" class="px-3 py-2 rounded-md text-white hover:text-gold text-sm">Support</a>
+          <a href="/app/" class="px-3 py-2 rounded-md text-gold text-sm">Open app</a>
+        </div>
+      </nav>
+    </header>
+
+    <section class="hero-gradient py-20 px-4 sm:px-6 lg:px-8 text-center">
+      <div class="max-w-3xl mx-auto">
+        <p class="text-sm uppercase tracking-[0.2em] text-liturgicalGold mb-4 font-semibold">
+          Coptic Orthodox liturgical year
+        </p>
+        <h1 class="font-display text-4xl sm:text-5xl font-semibold tracking-tight mb-6">
+          Seasons, readings &amp; <span class="text-gold">scripture</span>
+        </h1>
+        <p class="text-lg sm:text-xl text-slate-200 font-light max-w-2xl mx-auto leading-relaxed">
+          Browse the feast calendar, open the day’s katamaros references, and read bilingual Bible text —
+          powered by open npm packages you can use in your own apps.
+        </p>
+        <div class="mt-10 flex flex-wrap items-center justify-center gap-4">
+          <a
+            href="/app/"
+            class="inline-flex items-center bg-gold text-burgundy-900 font-display font-semibold px-7 py-3.5 no-underline hover:bg-gold-hover transition"
+          >
+            Open Coptic Synaxis
+          </a>
+          <a
+            href="/app/playground"
+            class="inline-flex items-center border border-gold/50 text-gold font-semibold px-7 py-3.5 no-underline hover:border-gold hover:text-hover transition"
+          >
+            Open playground
+          </a>
+          <a
+            href="/packages.html"
+            class="inline-flex items-center border border-white/25 text-white/90 font-semibold px-7 py-3.5 no-underline hover:border-gold hover:text-gold transition"
+          >
+            Explore packages
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <main class="max-w-6xl mx-auto my-16 px-4 sm:px-6 lg:px-8 flex-1 w-full">
+      <div class="text-center mb-12">
+        <h2 class="font-display text-3xl font-semibold tracking-tight text-burgundy-900 sm:text-4xl">
+          Open packages
+        </h2>
+        <p class="mt-2 text-slate-700 max-w-2xl mx-auto">
+          The same libraries behind the app — npm, yarn, pnpm, or bun. ESM, CommonJS, and TypeScript types.
+        </p>
+        <div class="w-12 h-1 bg-gold mx-auto mt-4 rounded-full"></div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <a
+          href="/packages.html#coptic-readings"
+          class="bg-white p-8 rounded-xl shadow-sm border border-slate-200 border-t-4 border-t-burgundy-700 hover:shadow-md hover:border-burgundy-700 transition duration-200 group no-underline"
+        >
+          <p class="text-xs font-semibold uppercase tracking-[0.16em] text-burgundy-700 mb-2">npm</p>
+          <h3 class="font-display text-xl font-semibold text-slate-900 mb-3 group-hover:text-burgundy-700">
+            coptic-readings
+          </h3>
+          <p class="text-sm text-slate-700 leading-relaxed">
+            Given a date, get katamaros reading references for that liturgical day — vespers, matins, liturgy —
+            plus feast, tune, and Coptic calendar context.
+          </p>
+        </a>
+
+        <a
+          href="/packages.html#bible-citation-text"
+          class="bg-white p-8 rounded-xl shadow-sm border border-slate-200 border-t-4 border-t-gold hover:shadow-md hover:border-burgundy-700 transition duration-200 group no-underline"
+        >
+          <p class="text-xs font-semibold uppercase tracking-[0.16em] text-burgundy-700 mb-2">npm</p>
+          <h3 class="font-display text-xl font-semibold text-slate-900 mb-3 group-hover:text-burgundy-700">
+            bible-citation-text
+          </h3>
+          <p class="text-sm text-slate-700 leading-relaxed">
+            Turn citation strings like <code class="text-xs bg-burgundy-50 px-1 rounded font-mono">John 20:1-18</code>
+            into English and Arabic verse text from public chapter assets.
+          </p>
+        </a>
+      </div>
+
+      <div class="mt-16 bg-burgundy-50 border-l-4 border-burgundy-700 p-6 sm:p-8 rounded-r-xl">
+        <h3 class="font-display text-xl font-semibold text-burgundy-900 mb-2">Better together</h3>
+        <p class="text-slate-700 leading-relaxed mb-4">
+          Use <strong>coptic-readings</strong> for the day’s refs, then
+          <strong>bible-citation-text</strong> to resolve Psalms, Gospels, and the rest into readable text.
+        </p>
+        <a href="/app/playground" class="text-sm font-semibold text-burgundy-700 no-underline hover:underline">
+          Open playground →
+        </a>
+      </div>
+    </main>
+
+    <footer class="site-footer pt-12 pb-10 px-4 sm:px-6 lg:px-8">
+      <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8 border-b border-white/15 pb-8 mb-8">
+        <div class="text-center md:text-left space-y-2">
+          <h4 class="footer-brand">Coptic Synaxis</h4>
+          <p class="footer-muted max-w-sm">Seasons, feast calendar, and scripture for the Coptic Orthodox year.</p>
+        </div>
+                <nav class="footer-nav" aria-label="Footer">
+          <a href="/">Home</a>
+          <a href="/packages.html">Packages</a>
+          <a href="/about.html">About</a>
+          <a href="/story.html">History behind</a>
+          <a href="/contact.html">Contact</a>
+          <a href="/support.html">Support</a>
+          <a href="/app/">App</a>
+        </nav>
+      </div>
+      <p class="footer-copy">Open packages on npm · Built for the Coptic community</p>
+    </footer>
+
+    <script src="/site.js"></script>
+  </body>
+</html>
