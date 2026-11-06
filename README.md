@@ -49,6 +49,20 @@ yarn preview
 
 Production build outputs marketing HTML into `dist/` and the SPA as `dist/app.html` with assets under `base: '/app/'`.
 
+## GitHub Pages
+
+Pushes to `main` run [`.github/workflows/deploy-pages.yml`](.github/workflows/deploy-pages.yml) and publish `dist/` to GitHub Pages.
+
+- Site: `https://tonymelek.github.io/coptic-synaxis/` (project repo base path)
+- App: `https://tonymelek.github.io/coptic-synaxis/app/`
+
+Local Pages-shaped build:
+
+```bash
+GITHUB_REPOSITORY=tonymelek/coptic-synaxis npm run build:pages
+npx vite preview  # optional smoke test
+```
+
 ## Stack notes
 
 - Entry: `app.html` (SPA), static pages in `public/`
