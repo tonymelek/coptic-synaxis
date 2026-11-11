@@ -211,6 +211,30 @@
     @apply w-full border-0 border-b border-fg/35 bg-transparent px-0 py-3 font-reading text-lg text-fg outline-none transition placeholder:text-fg-faint focus:border-gold;
   }
 
+  /* Date picker: light calendar control on dark shell (WCAG contrast). */
+  .field-input--date {
+    color-scheme: dark;
+    padding-inline-end: 0.25rem;
+  }
+
+  .field-input--date::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    width: 1.35rem;
+    height: 1.35rem;
+    opacity: 1;
+    filter: brightness(0) invert(1);
+  }
+
+  .field-input--date::-webkit-calendar-picker-indicator:hover {
+    filter: brightness(0) invert(1) sepia(1) saturate(4) hue-rotate(5deg);
+  }
+
+  .field-input--date:focus-visible::-webkit-calendar-picker-indicator {
+    outline: 2px solid var(--color-gold);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
   .btn-primary {
     @apply inline-flex items-center justify-center bg-gold px-7 py-3.5 font-display text-base font-semibold tracking-wide text-burgundy-900 transition duration-300 hover:bg-gold-hover;
   }

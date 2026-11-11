@@ -10,6 +10,8 @@ import {
   dayMetaFrom,
   LANGS,
   liturgicalDay,
+  pickReadingKeyForDay,
+  readingsDateLabels,
   resolveReading,
 } from '../lib/readings.js'
 
@@ -49,6 +51,10 @@ const dayYmd = computed(() =>
   typeof route.query.day === 'string' ? route.query.day : '',
 )
 
+const dayDateLabels = computed(() =>
+  dayYmd.value ? readingsDateLabels(dayYmd.value) : null,
+)
+
 const readingQuery = computed(() =>
   typeof route.query.reading === 'string' ? route.query.reading : '',
 )
@@ -85,19 +91,28 @@ const displayCitation = computed(() => {
   )
 })
 
+function viewQueryForDay(ymd, readingKey) {
+  const query = { day: ymd }
+  if (readingKey) query.reading = readingKey
+  return { path: '/view', query }
+}
+
 const readingKeyModel = computed({
   get: () => activeReading.value?.key ?? '',
   set: (key) => {
     if (!key || !dayYmd.value) return
-    router.replace({
-      path: '/view',
-      query: {
-        day: dayYmd.value,
-        reading: key,
-      },
-    })
+    router.replace(viewQueryForDay(dayYmd.value, key))
   },
 })
+
+function onDayPick(event) {
+  const ymd = event.target.value
+  if (!ymd || ymd === dayYmd.value) return
+  const nextDay = liturgicalDay(ymd)
+  if (!nextDay) return
+  const reading = pickReadingKeyForDay(nextDay, readingQuery.value)
+  router.push(viewQueryForDay(ymd, reading))
+}
 
 function toggleLang(langId) {
   const next = new Set(selectedLangs.value)
@@ -209,6 +224,27 @@ watch(
         >
           {{ capitalize(activeReading.service) }} · {{ activeReading.label }}
         </p>
+        <div
+          v-if="dayYmd && !freeRef"
+          class="mt-4 max-w-xs"
+        >
+          <label class="block">
+            <span class="eyebrow">Change date</span>
+            <input
+              type="date"
+              class="field-input field-input--date mt-1"
+              :value="dayYmd"
+              @change="onDayPick"
+            >
+          </label>
+          <p
+            v-if="dayDateLabels"
+            class="mt-1.5 text-xs text-fg-subtle"
+          >
+            {{ dayDateLabels.gregorian }}
+            <span class="text-fg-faint"> · {{ dayDateLabels.coptic }}</span>
+          </p>
+        </div>
       </div>
 
       <div class="flex flex-col items-stretch gap-5 sm:items-end">

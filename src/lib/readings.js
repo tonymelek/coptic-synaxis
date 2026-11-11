@@ -50,7 +50,92 @@ export function capitalize(value) {
   return value.charAt(0).toUpperCase() + value.slice(1)
 }
 
-/** Liturgical day pinned at 10:00 so evening spill does not shift the date. */
+const GREG_MONTHS_SHORT = [
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'Jun',
+  'Jul',
+  'Aug',
+  'Sep',
+  'Oct',
+  'Nov',
+  'Dec',
+]
+
+/** Long label e.g. `Thursday · 12 Nov 2026`. */
+export function formatGregorianLong(date, weekday) {
+  const y = date.getFullYear()
+  const m = date.getMonth()
+  const d = date.getDate()
+  const wd = weekday ?? ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][date.getDay()]
+  return `${wd} · ${d} ${GREG_MONTHS_SHORT[m]} ${y}`
+}
+
+/** Long Coptic label e.g. `Thursday · Hator 3, 1743`. */
+export function formatCopticLong(day) {
+  const parts = day.copticDate?.split('/') ?? []
+  const year = parts[2] ?? ''
+  return `${day.weekday} · ${day.copticMonth} ${day.copticDay}, ${year}`
+}
+
+/** Civil calendar day (wall clock), no liturgical evening spill. */
+export function calendarDay(ymd) {
+  const d = typeof ymd === 'string' ? parseYmd(ymd) : ymd
+  if (!d) return null
+  return new CopticReadings(d, {
+    now: new Date(d.getFullYear(), d.getMonth(), d.getDate(), 10),
+  })
+}
+
+/** Live liturgical day from clock (≥ 18:00 rolls to next Gregorian day). */
+export function liveLiturgicalDay(now = new Date()) {
+  return new CopticReadings(now)
+}
+
+/** Gregorian YYYY-MM-DD used for today's katamaros readings. */
+export function liturgicalTodayYmd(now = new Date()) {
+  return formatYmd(liveLiturgicalDay(now).effectiveLiturgicalDay)
+}
+
+/**
+ * Wall-clock civil calendar vs effective liturgical readings date.
+ * After 18:00 these diverge until midnight.
+ */
+export function calendarContext(now = new Date()) {
+  const civilYmd = formatYmd(now)
+  const civil = calendarDay(civilYmd)
+  const live = liveLiturgicalDay(now)
+  const liturgicalYmd = formatYmd(live.effectiveLiturgicalDay)
+
+  return {
+    civilYmd,
+    civilGregorian: formatGregorianLong(civil.effectiveLiturgicalDay, civil.weekday),
+    civilCoptic: formatCopticLong(civil),
+    liturgicalYmd,
+    liturgicalGregorian: formatGregorianLong(
+      live.effectiveLiturgicalDay,
+      live.weekday,
+    ),
+    liturgicalCoptic: formatCopticLong(live),
+    eveningSpillActive: civilYmd !== liturgicalYmd,
+  }
+}
+
+/** Gregorian + Coptic labels for a chosen readings day (`YYYY-MM-DD`). */
+export function readingsDateLabels(ymd) {
+  const day = liturgicalDay(ymd)
+  if (!day) return null
+  return {
+    ymd,
+    gregorian: formatGregorianLong(day.effectiveLiturgicalDay, day.weekday),
+    coptic: formatCopticLong(day),
+  }
+}
+
+/** Katamaros for a chosen day; 10:00 pin avoids spill on historical picks. */
 export function liturgicalDay(date) {
   const d = date instanceof Date ? date : parseYmd(date)
   if (!d) return null
@@ -117,6 +202,27 @@ export function resolveReading(dayRef, readingQuery) {
   if (!items.length) return null
   if (!readingQuery) return items[0]
   return items.find((item) => item.key === readingQuery) ?? items[0]
+}
+
+/** Reading key for liturgy gospel on a day, if present. */
+export function liturgyGospelReadingKey(day) {
+  const ref = day?.readingReference?.ref
+  if (!ref) return null
+  return (
+    collectDayReadings(ref).find(
+      (item) => item.service === 'liturgy' && item.role === 'gospel',
+    )?.key ?? null
+  )
+}
+
+/** Keep `preferKey` when valid; otherwise liturgy gospel, else first reading. */
+export function pickReadingKeyForDay(day, preferKey = '') {
+  const ref = day?.readingReference?.ref
+  if (!ref) return ''
+  const items = collectDayReadings(ref)
+  if (!items.length) return ''
+  if (preferKey && items.some((item) => item.key === preferKey)) return preferKey
+  return liturgyGospelReadingKey(day) ?? items[0].key
 }
 
 export function dayMetaFrom(day) {

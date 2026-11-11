@@ -194,6 +194,7 @@ export function buildYearFeasts(year, today = new Date()) {
         end: event.end,
         startYmd: formatYmd(event.start),
         endYmd: formatYmd(event.end),
+        sameDay,
         gregLabel: sameDay
           ? formatDisplayGreg(event.start)
           : `${formatDisplayGreg(event.start)} – ${formatDisplayGreg(event.end)}`,

@@ -1,12 +1,15 @@
 <script setup>
 import { computed, ref } from 'vue'
-import { RouterLink } from 'vue-router'
+import { RouterLink, useRouter } from 'vue-router'
 import {
+  calendarContext,
   capitalize,
   dayMetaFrom,
   formatFeastName,
-  formatYmd,
   liturgicalDay,
+  liturgyGospelReadingKey,
+  liturgicalTodayYmd,
+  readingsDateLabels,
   SERVICE_ORDER,
 } from '../lib/readings.js'
 import {
@@ -15,24 +18,18 @@ import {
   tuneAccentClass,
 } from '../lib/yearFeasts.js'
 
+const router = useRouter()
 const today = new Date()
 const year = today.getFullYear()
 
-const selectedYmd = ref(formatYmd(today))
+const selectedYmd = ref(liturgicalTodayYmd(today))
 const pastExpanded = ref(false)
+
+const clock = computed(() => calendarContext(new Date()))
 
 const day = computed(() => liturgicalDay(selectedYmd.value))
 const meta = computed(() => dayMetaFrom(day.value))
-
-const copticYear = computed(() => {
-  const parts = meta.value?.copticDate?.split('/') ?? []
-  return parts[2] ?? ''
-})
-
-const heroDate = computed(() => {
-  if (!meta.value) return ''
-  return `${meta.value.weekday} · ${meta.value.copticMonth} ${meta.value.copticDay}, ${copticYear.value}`
-})
+const readingsDates = computed(() => readingsDateLabels(selectedYmd.value))
 
 const feastLine = computed(() => {
   if (!meta.value) return ''
@@ -62,16 +59,31 @@ const activeFeasts = computed(() =>
 )
 
 const isViewingToday = computed(
-  () => selectedYmd.value === formatYmd(today),
+  () => selectedYmd.value === liturgicalTodayYmd(new Date()),
+)
+
+const showCivilAndLiturgical = computed(
+  () => isViewingToday.value && clock.value.eveningSpillActive,
 )
 
 function selectFeast(event) {
+  if (event.sameDay) {
+    const dayRef = liturgicalDay(event.startYmd)
+    const reading = liturgyGospelReadingKey(dayRef)
+    if (reading) {
+      router.push({
+        path: '/view',
+        query: { day: event.startYmd, reading },
+      })
+      return
+    }
+  }
   selectedYmd.value = event.startYmd
   window.scrollTo({ top: 0, behavior: 'smooth' })
 }
 
 function resetToday() {
-  selectedYmd.value = formatYmd(today)
+  selectedYmd.value = liturgicalTodayYmd(new Date())
 }
 
 function viewerLink(item) {
@@ -83,15 +95,45 @@ function viewerLink(item) {
     },
   }
 }
+
 </script>
 
 <template>
   <div class="flex flex-1 flex-col gap-16 sm:gap-20">
     <section class="reveal space-y-5 pt-2 text-center sm:pt-4 sm:text-start">
-      <p class="eyebrow">Liturgical day</p>
-      <h1 class="font-display text-3xl font-semibold leading-[1.15] tracking-tight text-gold sm:text-5xl sm:leading-[1.1]">
-        {{ heroDate }}
-      </h1>
+      <div
+        v-if="showCivilAndLiturgical"
+        class="mx-auto max-w-xl space-y-1 sm:mx-0"
+      >
+        <p class="eyebrow">
+          Calendar now
+        </p>
+        <p class="text-base text-fg-muted">
+          {{ clock.civilGregorian }}
+        </p>
+        <p class="text-sm text-fg-subtle">
+          {{ clock.civilCoptic }}
+        </p>
+      </div>
+
+      <div class="space-y-1">
+        <p class="eyebrow">
+          {{
+            showCivilAndLiturgical
+              ? 'Liturgical day · readings'
+              : isViewingToday
+                ? 'Liturgical day'
+                : 'Readings for'
+          }}
+        </p>
+        <h1 class="font-display text-3xl font-semibold leading-[1.15] tracking-tight text-gold sm:text-5xl sm:leading-[1.1]">
+          {{ readingsDates?.coptic }}
+        </h1>
+        <p class="text-base text-fg-muted">
+          {{ readingsDates?.gregorian }}
+        </p>
+      </div>
+
       <p class="mx-auto max-w-xl text-base capitalize leading-relaxed text-fg-muted sm:mx-0 sm:text-lg">
         {{ feastLine }}
       </p>
@@ -121,9 +163,12 @@ function viewerLink(item) {
             Scripture refs
           </h2>
         </div>
-        <p class="pb-1 font-display text-sm text-fg-subtle">
-          {{ selectedYmd }}
-        </p>
+        <div class="pb-1 text-end font-display text-sm text-fg-subtle">
+          <p>{{ readingsDates?.gregorian }}</p>
+          <p class="mt-0.5 text-xs text-fg-faint">
+            {{ readingsDates?.coptic }}
+          </p>
+        </div>
       </div>
 
       <div
